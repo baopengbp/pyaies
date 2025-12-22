@@ -29,20 +29,20 @@ Table 1.  Diamond DFT Time/SCF cycle(Seconds)
 ____________________________________
 Method	      openMP	MPI	PyMP
 ____________________________________
-occ-fgX	         72	24	15
-fgX	            414	68	59
-Speedup     	5.7    2.8     4.0
+occ-fgX	         72	  24	15
+fgX	            414 	68	59
+Speedup     	  5.7  2.8 4.0
 ____________________________________
 K-points (2,2,2), PBE0/gth-DZVP basis set (104 basis functions), 16 orbitals, using 16-core parallelization.
 
 
 Table 2.  Diamond HF Time/SCF cycle(Seconds)
 ____________________________________
-Method	      openMP	MPI	PyMP
+Method	      openMP	MPI	 PyMP
 ____________________________________
-occ-fgX	         69	10	12
-fgX	           426	54	56
-Speedup 	   6.2    5.4     4.7
+occ-fgX	         69	  10  	12
+fgX	            426	  54  	56
+Speedup 	      6.2  5.4   4.7
 ____________________________________
 K-points (2,2,2), RHF/gth-DZVP basis set (104 basis functions), 16 orbitals, using 16-core parallelization.
 
