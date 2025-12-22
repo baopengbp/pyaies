@@ -1,4 +1,4 @@
-
+                                           Full Grid eXchange(pbc/df/fft)
 
                        occ-fgx, occ-fgx-pymp, fgx-pymp, fgx-opt, occ-fgx-mpi
 1. Install pymp:
