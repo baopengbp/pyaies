@@ -47,3 +47,4 @@ ____________________________________
 K-points (2,2,2), RHF/gth-DZVP basis set (104 basis functions), 16 orbitals, using 16-core parallelization.
 
 5. occ-fgx-mpi version is already in mpi4pyscf dev version, see https://github.com/pyscf/mpi4pyscf/tree/dev/examples/01-parallel_krhf_occ.py and ttps://github.com/pyscf/mpi4pyscf/tree/dev/pbc/df/fft_occk.py    There is a more balenced mpi version in directory mpi using orbitals to partition.
+6. Old version is in occ-fft. 
