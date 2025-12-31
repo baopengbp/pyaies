@@ -1,0 +1,89 @@
+
+                       occ-df, optimized DF (SCF and DF gradient for rhf, uhf, cuhf, rohf, rks, uks, cuks, roks)
+
+1. Need more than pyscf input, see the example:
+#=========== for hybrid DFT such as B3LYP ===========
+# occ-df
+import occdf_override
+# optimized df
+import dfjk_override
+# orig
+
+#=========== for pure DFT such as BLYP ===========
+# optimized df
+import df_j
+#orig
+
+
+3.Copy occ-df to your_dir and set environment virable, such as:
+export PYTHONPATH=$PYTHONPATH:your_dir/occ-df 
+
+4. run: OMP_NUM_THREADS=16 python a.py
+
+                    Benchmark
+
+In terms of methodologies, density fitting (DF) methods [with O(N³) scaling] are employed for pure DFT (applicable to systems where metal atoms are the majority), while density fitting [with O(oN³) scaling] and occupied orbital density fitting (occ-DF) [with O(o²N²) scaling] methods are used for the most popular hybrid DFT, replacing traditional two-electron integral-based DFT [with O(N⁴) scaling]. A novel generalized density matrix low-rank decomposition method has been developed to accelerate Hartree-Fock (HF) exchange density fitting and electron density calculations, improving the speed by a factor of the number of basis functions divided by the number of occupied orbitals (N/o) for any initial guess lacking HF orbital occupancy (e.g., efficient MINAO). Second-order convergence methods have been accelerated (as DIIS is insufficient for challenging SCF systems like transition metals; also applicable to CASSCF, see examples), making the construction of Coulomb and exchange matrices N/o times faster, resulting in an overall speedup of up to twofold. To accelerate exchange-correlation functionals, the construction of electron density has been sped up from scaling N²Ng to oNNg.
+
+In terms of programming, the occ-DF method (including optimized HF Coulomb components and DF analytical gradients) and corresponding programs have been established based on the open-source PySCF, achieving up to an order of magnitude speedup compared to traditional HF methods. The CPU energy and gradient programs for DF have been deeply optimized, improving speed by over tenfold and reaching the level of occ-DF. DF and occ-DF programs for ROHF and CUHF have been developed, eliminating spin contamination. Three-center integrals have been implemented to achieve low scaling and full in-memory operation, while the exchange-correlation functional part has been deeply optimized. The most computationally intensive HF exchange (HFX) program section has been extensively optimized, with HFX computational costs even significantly lower than those of exchange-correlation functionals for medium-sized basis sets (around 700). From initially only supporting HF calculations, capabilities for RDFT, UDFT, RODFT, and CUDT calculations have been implemented, enabling geometry optimization. Calculations on the Ti₆O₁₃⁻ cluster structure show that both hybrid DFT and pure DFT methods compute energies, gradients, and geometry optimizations 9–32 times faster than traditional DFT, with sufficiently small errors in energy and geometry (Table 1). B3LYP/cc-pVTZ calculations on cholesterol show energy and gradient computations 13 and 20 times faster, respectively, than traditional methods (Table 2). For the self-consistent field (SCF) energy calculation part, the developed openMP occ-DF program can optimally compute under varying memory sizes (combining in-memory storage and direct integral calculations, maximizing the use of in-memory storage without the slow disk read disadvantage, effectively bridging fully in-memory integral storage and fully direct integral calculation methods). Additionally, a full in-memory GPU energy program for RHF occ-DF has been implemented based on gpu4pyscf, using cupy + cutensor to accelerate the Coulomb and exchange parts of HF on GPUs. For menthol (RB3LYP/aug-cc-pVTZ), the speed is 13 times faster than 16-core parallel CPU (GPU: A800, CPU: Intel Gold 6230R).
+
+Table 1. Ti₆O₁₃⁻ DFT Geometry Optimization Time (seconds)
+_______________________________________________________
+Method   Initial Energy  Gradient   Optimization
+_______________________________________________________
+                    UB3LYP
+_______________________________________________________
+occ-DF       131          24         1002
+DF           126          28         1007
+Traditional 1293         363         9741
+Speedup      9.9        15.1          9.7
+_______________________________________________________
+                   CUB3LYP
+_______________________________________________________
+occ-DF       129          26
+DF           114          30
+Traditional 1210         363
+Speedup      9.4        14.0
+_______________________________________________________
+                   ROB3LYP
+_______________________________________________________
+occ-DF       145          32
+DF           148          34
+Traditional 1300         407
+Speedup      9.0        12.7
+_______________________________________________________
+                   UBLYP
+_______________________________________________________
+DF            60          18          598
+Traditional  955         580        12096
+Speedup     15.9        32.2         20.2
+_______________________________________________________
+                  CUBLYP
+DF            93          20
+Traditional 1120         579
+Speedup     12.0        29.0
+_______________________________________________________
+def2-TZVP, 673 basis functions, default initial guess MINAO, openMP 16-core parallel. Energy difference: B3LYP 4 μHartree/atom, BLYP 10 μHartree/atom. Identical atomic distances less than 3 fm.
+
+Table 2. Cholesterol DFT Geometry Optimization Time (seconds)
+_____________________________________________________________
+Method   Initial Energy  Gradient
+_____________________________________________________________
+             B3LYP/cc-pVTZ
+_____________________________________________________________
+occ-DF       165          103
+DF           194          109
+Traditional 2144         2006
+Speedup     13.0         19.5
+_____________________________________________________________
+MINAO initial guess, openMP 16-core parallel, RB3LYP/cc-pVTZ, 1484 basis functions, energy difference 2 μHartree/atom, RB3LYP/cc-pVDZ, 622 basis functions, energy difference 8 μHartree/atom.
+
+5. The MPI parallel program for occ-DF can be found at github.com/baopengbp/occ-DF.
+
+
+
+
+
+
+
+
+
