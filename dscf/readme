@@ -1,1 +1,29 @@
 
+                                    Delta-SCF for rhf, uhf, cuhf, rohf, rks, uks, cuks, roks
+
+A. GPU: 
+  1. Need gpu4pyscf installed
+
+  2. Run example: MKL_NUM_THREADS=16 OMP_NUM_THREADS=16 CUDA_VISIBLE_DEVICES=0 python formald-dscf-gpu.py
+
+  3. Methods: 'UKS', 'CUKS', 'ROKS', 'SFRO'
+
+  4. Excited methods: 
+     'pd': projected-delta-SCF, Bao, P.; Hettich, C. P.; Shi, Q.; Gao, J. J. Chem. Theory Comput 2021, 17, 240. 
+           Need compile Jacobi diagonalization fortran program using comlile.sh 
+     'mom': mom in pyscf
+     'orig': the original delta-SCF
+     'vlv': general level-shift using mf.excite_factor as level-shift value
+     'ex-lshift': level-shift using mf.excite_factor as level-shift value, Carter-Fenk, K.; Herbert, J. M. J. Chem. Theory Comput. 2020, 16, 5067
+     'chp_ord': Orthogonality Constrained DFT(OCDFT) with hole and particle, Evangelista, F. A.; Shushkov, P.; Tully, J. C. J. Phys. Chem. A 2013, 117, 7378. 
+     'cp_ord': similar as 'chp_ord' only with particle
+     'pd_chp': projected-delta-SCF + OCDFT, need modify pd_gpu.py
+     sgm_gdm_gpu_u.py: square gradient minimization(SGM) only for UKS/UHF now, Hait, D.; Head-Gordon, M. J. Chem. Theory Comput. 2020, 16, 1699     
+
+  5. oscillator strength: mf.dips =
+     'Orig', default
+     'Schmidt', Schmidt orthogonalization with groud state
+     'Lowdin', Lowdin orthogonalization with both excited state and groud state, Worster, S. B.; Feighan, O.; Manby, F. R. J. Chem. Phys. 2021, 154, 124106.
+  6. Density-fitting: mf.df, True, default
+
+B. CPU: to be continue
