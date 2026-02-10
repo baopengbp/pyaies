@@ -347,7 +347,7 @@ Keyword argument "init_dm" is replaced by "dm0"''')
         fock = mf.get_fock(h1e, s1e, vhf, dm)     
         dm, mo_coeff, mo_occ, grad1, mo_energy = rblw(mf, fock, s1e, dm, mo_coeff)
         # attach mo_coeff and mo_occ to dm to improve DFT get_veff efficiency
-        dm = lib.tag_array(dm, mo_coeff=mo_coeff, mo_occ=mo_occ)
+        #dm = lib.tag_array(dm, mo_coeff=mo_coeff, mo_occ=mo_occ)
         vhf = mf.get_veff(mol, dm, dm_last, vhf)
         e_tot = mf.energy_tot(dm, h1e, vhf)
 
@@ -389,7 +389,7 @@ Keyword argument "init_dm" is replaced by "dm0"''')
         dm, mo_coeff, mo_occ, grad1, mo_energy = rblw(mf, fock, s1e, dm, mo_coeff)
         #mo_occ = mf.get_occ(mo_energy, mo_coeff)
         #dm, dm_last = mf.make_rdm1(mo_coeff, mo_occ), dm
-        dm = lib.tag_array(dm, mo_coeff=mo_coeff, mo_occ=mo_occ)
+        #dm = lib.tag_array(dm, mo_coeff=mo_coeff, mo_occ=mo_occ)
         vhf = mf.get_veff(mol, dm, dm_last, vhf)
         e_tot, last_hf_e = mf.energy_tot(dm, h1e, vhf), e_tot
 
