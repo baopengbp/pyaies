@@ -2,4 +2,3 @@
     Block Localized Wavefunction(BLW)
 
 mf.block = [[26,48],[10,19]] means 26 electrons and 48 basis sets in 1st block, 10 electrons and 19 basis sets in 2nd block. The blocks are splitted by the order of atoms.
-It is right in PySCF-2.3 comparing with gamess-blw, will be optimized and transfer to latest pyscf version later.
