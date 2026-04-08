@@ -24,6 +24,9 @@ A. GPU:
      'Orig', default
      'Schmidt', Schmidt orthogonalization with groud state
      'Lowdin', Lowdin orthogonalization with both excited state and groud state, Worster, S. B.; Feighan, O.; Manby, F. R. J. Chem. Phys. 2021, 154, 124106.
+
   6. Density-fitting: mf.df, True, default
+  
+  7. Gradient and Geometry optimize: see hcho_s1_opt_gpu_uks.py
 
 B. CPU: to be continue
